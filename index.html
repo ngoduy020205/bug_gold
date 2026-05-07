@@ -3,57 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Mua Gói - VIP</title>
+    <title>Tool Mua Gói VIP - Gunny Private</title>
     <style>
-        body { background: #121212; color: #0f0; font-family: monospace; text-align: center; padding: 20px; }
-        .box { background: #1e1e1e; padding: 20px; border-radius: 10px; display: inline-block; border: 1px solid #333; max-width: 400px; width: 100%; }
-        h2 { color: #fff; margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
-        input { width: 100%; box-sizing: border-box; margin: 10px 0; padding: 12px; background: #000; color: #0f0; border: 1px solid #444; font-size: 16px; font-family: monospace; }
-        button { width: 100%; padding: 15px; background: #006600; color: #fff; border: none; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-        button:hover { background: #008800; }
-        #status { margin-top: 20px; font-size: 14px; text-align: left; height: 150px; overflow-y: auto; background: #000; padding: 10px; border: 1px solid #444; }
+        :root {
+            --bg-color: #0f172a;
+            --box-bg: #1e293b;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --log-bg: #020617;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #eab308;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: var(--box-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            background: var(--log-bg);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .log-container {
+            margin-top: 20px;
+            background: var(--log-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            height: 220px;
+            overflow-y: auto;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            text-align: left;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .log-entry { margin-bottom: 5px; border-bottom: 1px dashed #1e293b; padding-bottom: 5px; }
+        .success { color: var(--success); }
+        .error { color: var(--error); }
+        .warning { color: var(--warning); font-weight: bold; }
+
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>🛠️ AUTO BUY GOLD</h2>
-        <input type="text" id="name" placeholder="Tên nhân vật" value="acechuon93">
-        <input type="text" id="role" placeholder="Role ID" value="281">
-        <input type="text" id="server" placeholder="Số Server (VD: 36)" value="36">
-        <input type="number" id="num" placeholder="Số lượng gói" value="100">
-        <button onclick="chayTool()" id="btnStart">BẮT ĐẦU MUA</button>
-        <div id="status"></div>
+
+<div class="container">
+    <h2>⚡ AUTO BUY GOLD ⚡</h2>
+    
+    <div class="input-group" style="margin-bottom: 15px;">
+        <label>Tên nhân vật nhận đồ</label>
+        <input type="text" id="name" placeholder="VD: acechuon93" value="acechuon93">
     </div>
 
-    <script>
-        async function chayTool() {
-            const name = document.getElementById('name').value;
-            const role = document.getElementById('role').value;
-            const srv = document.getElementById('server').value;
-            const num = document.getElementById('num').value;
-            const status = document.getElementById('status');
-            const btn = document.getElementById('btnStart');
-            
-            // Link Render đã được ráp chuẩn
-            const proxyUrl = "https://bug-gold.onrender.com/buy";
+    <div class="grid-2">
+        <div class="input-group">
+            <label>Role ID</label>
+            <input type="text" id="role" placeholder="VD: 281" value="281">
+        </div>
+        <div class="input-group">
+            <label>Cụm Server</label>
+            <input type="text" id="server" placeholder="VD: 36" value="36">
+        </div>
+    </div>
 
-            btn.disabled = true;
-            status.innerHTML = "<p style='color:yellow'>Đang chạy... vui lòng không tắt web</p>";
-            
-            for(let i = 1; i <= num; i++) {
-                try {
-                    const res = await fetch(`${proxyUrl}?srv_id=local_${srv}&role_id=${role}&name=${name}`);
-                    const text = await res.text();
-                    status.innerHTML += `<p>[${i}/${num}] OK: ${text}</p>`;
-                } catch(e) {
-                    status.innerHTML += `<p style='color:red'>[${i}/${num}] Lỗi kết nối Server!</p>`;
-                }
-                status.scrollTop = status.scrollHeight;
-                await new Promise(r => setTimeout(r, 500)); // Nghỉ 0.5s giữa các lần mua
+    <div class="input-group" style="margin-bottom: 10px;">
+        <label>Số lượng gói muốn mua</label>
+        <input type="number" id="num" placeholder="VD: 100" value="10">
+    </div>
+
+    <button onclick="chayTool()" id="btnStart">🚀 BẮT ĐẦU MUA</button>
+
+    <div class="log-container" id="logArea">
+        <div style="color: #64748b; text-align: center; margin-top: 80px;">
+            Hệ thống đã sẵn sàng...
+        </div>
+    </div>
+</div>
+
+<script>
+    async function chayTool() {
+        const name = document.getElementById('name').value.trim();
+        const role = document.getElementById('role').value.trim();
+        const srv = document.getElementById('server').value.trim();
+        const num = parseInt(document.getElementById('num').value) || 1;
+        const logArea = document.getElementById('logArea');
+        const btn = document.getElementById('btnStart');
+        
+        // Link Render của bạn
+        const proxyUrl = "https://bug-gold.onrender.com/buy";
+
+        btn.disabled = true;
+        btn.innerText = "⏳ ĐANG XỬ LÝ...";
+        logArea.innerHTML = `<div class="log-entry warning">[*] Bắt đầu mua ${num} gói cho [${name}] ở Server [${srv}]...</div>`;
+        
+        for(let i = 1; i <= num; i++) {
+            try {
+                // Ép thêm local_ nếu người dùng chỉ nhập số
+                const serverFormat = srv.includes("local_") ? srv : `local_${srv}`;
+                
+                const res = await fetch(`${proxyUrl}?srv_id=${serverFormat}&role_id=${role}&name=${name}`);
+                const text = await res.text();
+                
+                // Trích xuất đoạn text trả về để hiển thị đẹp hơn
+                logArea.innerHTML += `<div class="log-entry success">[${i}/${num}] ✔️ ${text}</div>`;
+            } catch(e) {
+                logArea.innerHTML += `<div class="log-entry error">[${i}/${num}] ❌ Lỗi: Không thể kết nối tới Server.</div>`;
             }
-            status.innerHTML += "<p style='color:lime'>=== HOÀN TẤT ===</p>";
-            btn.disabled = false;
+            
+            // Tự động cuộn xuống dòng mới nhất
+            logArea.scrollTop = logArea.scrollHeight;
+            
+            // TỐC ĐỘ: Đã giảm xuống còn 100ms (0.1 giây)
+            await new Promise(r => setTimeout(r, 100));
         }
-    </script>
+        
+        logArea.innerHTML += `<div class="log-entry warning" style="text-align: center; margin-top: 10px;">=== THÀNH CÔNG ===</div>`;
+        btn.disabled = false;
+        btn.innerText = "🚀 MUA TIẾP";
+        logArea.scrollTop = logArea.scrollHeight;
+    }
+</script>
+
 </body>
 </html>
