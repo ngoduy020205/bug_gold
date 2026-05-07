@@ -10,7 +10,9 @@ def buy():
     srv_id = request.args.get('srv_id')
     role_id = request.args.get('role_id')
     name = request.args.get('name')
-    productId = "7"
+    
+    # Nhận ID gói từ Web truyền lên (nếu không có thì mặc định là 7)
+    productId = request.args.get('productId', '7')
     money = "1"
     
     # Session ID cứng của bạn
