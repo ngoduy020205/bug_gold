@@ -93,7 +93,7 @@
             border-color: var(--accent);
         }
 
-        /* KHU VỰC CHỌN GÓI */
+        /* KHU VỰC CHỌN GÓI (Đã ẩn ID, căn giữa chữ) */
         .package-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -105,23 +105,25 @@
             background: var(--bg-body);
             border: 1px solid var(--border-normal);
             border-radius: 4px;
-            padding: 12px 5px;
+            padding: 14px 5px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .pkg-item .pkg-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-        .pkg-item .pkg-id { font-size: 11px; color: var(--text-muted); }
 
         .pkg-item:hover { border-color: #555; }
         
         .pkg-item.active {
             border-color: var(--accent);
             background: rgba(0, 122, 204, 0.1);
+            color: var(--accent);
         }
-        .pkg-item.active .pkg-name { color: var(--accent); }
 
         button {
             width: 100%;
@@ -190,26 +192,11 @@
     <div class="form-group">
         <label>Gói Sản Phẩm (Bắt buộc chọn)</label>
         <div class="package-grid" id="packageGrid">
-            <div class="pkg-item" data-id="7" onclick="selectPackage(this)">
-                <div class="pkg-name">Gói Vàng</div>
-                <div class="pkg-id">ID: 7</div>
-            </div>
-            <div class="pkg-item" data-id="904" onclick="selectPackage(this)">
-                <div class="pkg-name">Lễ 100K</div>
-                <div class="pkg-id">ID: 904</div>
-            </div>
-            <div class="pkg-item" data-id="907" onclick="selectPackage(this)">
-                <div class="pkg-name">Lễ 1M</div>
-                <div class="pkg-id">ID: 907</div>
-            </div>
-            <div class="pkg-item" data-id="908" onclick="selectPackage(this)">
-                <div class="pkg-name">Lễ 2M</div>
-                <div class="pkg-id">ID: 908</div>
-            </div>
-            <div class="pkg-item" data-id="705" onclick="selectPackage(this)">
-                <div class="pkg-name">Lễ 5M</div>
-                <div class="pkg-id">ID: 705</div>
-            </div>
+            <div class="pkg-item" data-id="7" onclick="selectPackage(this)">Gói Vàng</div>
+            <div class="pkg-item" data-id="904" onclick="selectPackage(this)">Lễ 100K</div>
+            <div class="pkg-item" data-id="907" onclick="selectPackage(this)">Lễ 1M</div>
+            <div class="pkg-item" data-id="908" onclick="selectPackage(this)">Lễ 2M</div>
+            <div class="pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
         </div>
     </div>
 
@@ -237,7 +224,7 @@
         // Thêm class active vào gói được bấm
         element.classList.add('active');
         
-        // Lưu lại ID gói
+        // Lưu lại ID gói ẩn bên dưới lớp HTML
         currentProductId = element.getAttribute('data-id');
     }
 
@@ -268,7 +255,7 @@
         btn.innerText = "Đang xử lý...";
         
         document.getElementById('logger').innerHTML = '';
-        addLog(`Bắt đầu tiến trình: Mua ${num} gói (ID: ${currentProductId}) cho [${name}]`);
+        addLog(`Bắt đầu tiến trình: Mua ${num} gói (ID ẩn: ${currentProductId}) cho [${name}]`);
         
         for(let i = 1; i <= num; i++) {
             try {
