@@ -52,7 +52,7 @@
 
     <div class="full-width">
         <label>Mã Cookie (PHPSESSID):</label>
-        <input type="text" id="txtCookie" placeholder="VD: PHPSESSID=bskoh80nq21rlulqpakotjdaq6">
+        <input type="text" id="txtCookie" value="PHPSESSID=bskoh80nq21rlulqpakotjdaq6">
     </div>
 
     <button onclick="startAutoBuy()" id="btnBuy">🔥 TIẾN HÀNH MUA</button>
@@ -81,11 +81,10 @@
         btnBuy.innerText = "⏳ ĐANG CHẠY... VUI LÒNG ĐỢI";
         logArea.innerHTML = `<div class="info">[*] Khởi động quá trình mua ${totalPacks} gói cho ${name}...</div>`;
 
-        // URL của game (HTTP)
-        const baseUrl = "http://nhangiatruyenky.com:126/api.php/pf/sygame/pay_web/";
+        // Gọi thẳng URL (Yêu cầu phải có Backend Proxy hoặc tắt CORS Chrome)
+        const targetUrl = "http://nhangiatruyenky.com:126/api.php/pf/sygame/pay_web/";
 
         for (let i = 1; i <= totalPacks; i++) {
-            // Nhồi thông số vào URL (Có nhồi cả Cookie dạng params phòng trường hợp Server PHP hỗ trợ)
             const queryParams = new URLSearchParams({
                 srv_id: server,
                 role_id: role,
@@ -94,17 +93,14 @@
                 productId: "7"
             });
             
-            const targetUrl = `${baseUrl}?${queryParams.toString()}`;
-            
-            // DÙNG CORS PROXY ĐỂ LÁCH LUẬT HTTPS (Mixed Content) CỦA GITHUB
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(targetUrl);
+            const fullUrl = `${targetUrl}?${queryParams.toString()}`;
 
             try {
-                const response = await fetch(proxyUrl, {
+                const response = await fetch(fullUrl, {
                     method: 'GET',
                     headers: {
                         'Accept': '*/*',
-                        // Ép trình duyệt gửi Cookie qua header (Một số trình duyệt có thể cảnh báo)
+                        // Ép trình duyệt gửi Cookie
                         'Cookie': cookie
                     }
                 });
@@ -116,13 +112,10 @@
                     logArea.innerHTML += `<div class="error">[${i}/${totalPacks}] ❌ Lỗi HTTP: ${response.status}</div>`;
                 }
             } catch (error) {
-                logArea.innerHTML += `<div class="error">[${i}/${totalPacks}] ❌ Lỗi kết nối: ${error.message}</div>`;
+                logArea.innerHTML += `<div class="error">[${i}/${totalPacks}] ❌ Lỗi kết nối (Trình duyệt chặn CORS/Cookie): ${error.message}</div>`;
             }
 
-            // Tự động cuộn khung log xuống dòng cuối cùng
             logArea.scrollTop = logArea.scrollHeight;
-            
-            // Nghỉ 500ms để tránh bị server chặn IP
             await new Promise(resolve => setTimeout(resolve, 500));
         }
 
