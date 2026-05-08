@@ -16,6 +16,8 @@
             --accent-hover: #005f9e;
             --success: #4CAF50;
             --error: #f44336;
+            --char-color: #9c27b0; /* Màu riêng cho nút nhân vật */
+            --char-bg: rgba(156, 39, 176, 0.1);
         }
 
         body {
@@ -52,40 +54,31 @@
             padding-bottom: 15px;
         }
 
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
         .form-group {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            margin-bottom: 15px;
-        }
-
-        .form-row .form-group {
-            margin-bottom: 0;
+            margin-bottom: 20px;
         }
 
         label {
             font-size: 12px;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        input {
+        input[type="number"] {
             background: var(--bg-body);
             color: var(--text-main);
             border: 1px solid var(--border-normal);
-            padding: 10px 12px;
+            padding: 12px;
             border-radius: 4px;
             font-size: 14px;
             font-family: inherit;
             transition: border-color 0.2s;
+            text-align: center;
+            font-weight: bold;
         }
 
         input:focus {
@@ -93,15 +86,16 @@
             border-color: var(--accent);
         }
 
-        /* KHU VỰC CHỌN GÓI (Đã ẩn ID, căn giữa chữ) */
-        .package-grid {
+        /* LƯỚI CHỌN CHUNG */
+        .grid-layout {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
         }
+        
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
 
-        .pkg-item {
+        .select-item {
             background: var(--bg-body);
             border: 1px solid var(--border-normal);
             border-radius: 4px;
@@ -117,54 +111,66 @@
             justify-content: center;
         }
 
-        .pkg-item:hover { border-color: #555; }
-        
+        .select-item:hover { border-color: #555; }
+
+        /* Nút Gói Quà */
         .pkg-item.active {
             border-color: var(--accent);
             background: rgba(0, 122, 204, 0.1);
             color: var(--accent);
         }
 
-        button {
+        /* Nút Nhân Vật */
+        .char-item.active {
+            border-color: var(--char-color);
+            background: var(--char-bg);
+            color: var(--char-color);
+        }
+
+        button.action-btn {
             width: 100%;
             background: var(--accent);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-size: 15px;
             font-weight: 600;
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.2s;
             text-transform: uppercase;
+            margin-top: 5px;
         }
 
-        button:hover { background: var(--accent-hover); }
-        button:disabled { background: var(--border-normal); color: var(--text-muted); cursor: not-allowed; }
+        button.action-btn:hover { background: var(--accent-hover); }
+        button.action-btn:disabled { background: var(--border-normal); color: var(--text-muted); cursor: not-allowed; }
 
         .log-box {
             margin-top: 20px;
             background: var(--bg-body);
             border: 1px solid var(--border-normal);
             border-radius: 4px;
-            height: 200px;
+            height: 180px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 12px;
             font-family: 'Consolas', 'Courier New', Courier, monospace;
             font-size: 12px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        .log-row { margin-bottom: 4px; }
+        .log-row { margin-bottom: 4px; border-bottom: 1px solid #1a1a1a; padding-bottom: 4px; }
         .log-success { color: var(--success); }
         .log-error { color: var(--error); }
         .log-sys { color: var(--text-muted); }
 
-        /* Responsive cho điện thoại */
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
         @media (max-width: 400px) {
-            .package-grid { grid-template-columns: repeat(2, 1fr); }
-            .form-row { flex-direction: column; gap: 0; }
-            .form-row .form-group { margin-bottom: 15px; }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -174,61 +180,62 @@
     <h2>Auto Buy System</h2>
     
     <div class="form-group">
-        <label>Target Name</label>
-        <input type="text" id="name" value="acechuon93" autocomplete="off">
-    </div>
-
-    <div class="form-row">
-        <div class="form-group">
-            <label>Role ID</label>
-            <input type="text" id="role" value="281" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <label>Server</label>
-            <input type="text" id="server" value="36" autocomplete="off">
+        <label>1. Chọn Nhân Vật</label>
+        <div class="grid-layout grid-2" id="characterGrid">
+            <div class="select-item char-item" data-user="acechuon93" data-role="281" data-name="SoiCoDoc" onclick="selectCharacter(this)">SoiCoDoc</div>
+            <div class="select-item char-item" data-user="Dyydzct6m" data-role="200" data-name="Dyydzct6m" onclick="selectCharacter(this)">Dyydzct6m</div>
+            <div class="select-item char-item" data-user="phongvu37gk" data-role="17" data-name="TobyRyan" onclick="selectCharacter(this)">TobyRyan</div>
+            <div class="select-item char-item" data-user="lequynhan" data-role="150" data-name="Gojo" onclick="selectCharacter(this)">Gojo</div>
         </div>
     </div>
 
     <div class="form-group">
-        <label>Gói Sản Phẩm (Bắt buộc chọn)</label>
-        <div class="package-grid" id="packageGrid">
-            <div class="pkg-item" data-id="7" onclick="selectPackage(this)">Gói Vàng</div>
-            <div class="pkg-item" data-id="904" onclick="selectPackage(this)">Lễ 100K</div>
-            <div class="pkg-item" data-id="907" onclick="selectPackage(this)">Lễ 1M</div>
-            <div class="pkg-item" data-id="908" onclick="selectPackage(this)">Lễ 2M</div>
-            <div class="pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
+        <label>2. Chọn Gói Nạp</label>
+        <div class="grid-layout grid-3" id="packageGrid">
+            <div class="select-item pkg-item" data-id="7" onclick="selectPackage(this)">Gói Vàng</div>
+            <div class="select-item pkg-item" data-id="904" onclick="selectPackage(this)">Lễ 100K</div>
+            <div class="select-item pkg-item" data-id="907" onclick="selectPackage(this)">Lễ 1M</div>
+            <div class="select-item pkg-item" data-id="908" onclick="selectPackage(this)">Lễ 2M</div>
+            <div class="select-item pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
         </div>
     </div>
 
     <div class="form-group">
-        <label>Số lượng</label>
+        <label>3. Số lượng</label>
         <input type="number" id="num" value="10" min="1" autocomplete="off">
     </div>
 
-    <button onclick="startProcess()" id="btnAction">Thực Thi</button>
+    <button onclick="startProcess()" class="action-btn" id="btnAction">Thực Thi Giao Dịch</button>
 
     <div class="log-box" id="logger">
-        <div class="log-sys">System initialized. Waiting for input...</div>
+        <div class="log-sys">System ready. Select target and package...</div>
     </div>
 </div>
 
 <script>
     let currentProductId = null;
+    let selectedChar = null;
 
-    // Hàm xử lý khi bấm chọn gói
-    function selectPackage(element) {
-        // Xóa class active ở tất cả các gói
-        const items = document.querySelectorAll('.pkg-item');
-        items.forEach(item => item.classList.remove('active'));
-        
-        // Thêm class active vào gói được bấm
+    // Xử lý chọn nhân vật
+    function selectCharacter(element) {
+        document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
         element.classList.add('active');
         
-        // Lưu lại ID gói ẩn bên dưới lớp HTML
+        // Lưu data ẩn
+        selectedChar = {
+            username: element.getAttribute('data-user'),
+            roleId: element.getAttribute('data-role'),
+            displayName: element.getAttribute('data-name')
+        };
+    }
+
+    // Xử lý chọn gói
+    function selectPackage(element) {
+        document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
 
-    // Hàm in log
     function addLog(msg, type = 'sys') {
         const logger = document.getElementById('logger');
         const className = type === 'success' ? 'log-success' : type === 'error' ? 'log-error' : 'log-sys';
@@ -237,32 +244,33 @@
     }
 
     async function startProcess() {
+        if (!selectedChar) {
+            alert("LỖI: Bạn chưa chọn Nhân vật!");
+            return;
+        }
         if (!currentProductId) {
-            alert("LỖI: Bạn chưa chọn gói sản phẩm nào!");
+            alert("LỖI: Bạn chưa chọn Gói nạp!");
             return;
         }
 
-        const name = document.getElementById('name').value.trim();
-        const role = document.getElementById('role').value.trim();
-        const srv = document.getElementById('server').value.trim();
         const num = parseInt(document.getElementById('num').value) || 1;
         const btn = document.getElementById('btnAction');
         
-        // Link Render của bạn
+        // Link Render
         const proxyUrl = "https://bug-gold.onrender.com/buy";
 
         btn.disabled = true;
         btn.innerText = "Đang xử lý...";
         
         document.getElementById('logger').innerHTML = '';
-        addLog(`Bắt đầu tiến trình: Mua ${num} gói (ID ẩn: ${currentProductId}) cho [${name}]`);
+        // In log chỉ dùng displayName, giấu hoàn toàn username và roleId
+        addLog(`Khởi chạy: Mua ${num} gói cho [${selectedChar.displayName}]`);
         
         for(let i = 1; i <= num; i++) {
             try {
-                const serverFormat = srv.includes("local_") ? srv : `local_${srv}`;
-                
-                // Gắn thêm tham số productId vào URL để gửi lên Render
-                const targetUrl = `${proxyUrl}?srv_id=${serverFormat}&role_id=${role}&name=${name}&productId=${currentProductId}`;
+                // Server fix cứng là local_36
+                // Gửi username và roleId thật lên server qua biến ẩn
+                const targetUrl = `${proxyUrl}?srv_id=local_36&role_id=${selectedChar.roleId}&name=${selectedChar.username}&productId=${currentProductId}`;
                 
                 const res = await fetch(targetUrl);
                 const text = await res.text();
@@ -275,9 +283,9 @@
             await new Promise(r => setTimeout(r, 100)); // Delay 100ms
         }
         
-        addLog(`Tiến trình hoàn tất.`, 'sys');
+        addLog(`Giao dịch hoàn tất.`, 'sys');
         btn.disabled = false;
-        btn.innerText = "Thực Thi";
+        btn.innerText = "Thực Thi Giao Dịch";
     }
 </script>
 
