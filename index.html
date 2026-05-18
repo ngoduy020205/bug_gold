@@ -16,7 +16,7 @@
             --accent-hover: #005f9e;
             --success: #4CAF50;
             --error: #f44336;
-            --char-color: #9c27b0; /* Màu riêng cho nút nhân vật */
+            --char-color: #9c27b0;
             --char-bg: rgba(156, 39, 176, 0.1);
         }
 
@@ -127,6 +127,29 @@
             color: var(--char-color);
         }
 
+        /* MENU XỔ XUỐNG (DROPDOWN) */
+        .dropdown-header {
+            background: var(--bg-body);
+            border: 1px solid var(--border-normal);
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-header:hover { border-color: #555; }
+        .dropdown-header.open {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         button.action-btn {
             width: 100%;
             background: var(--accent);
@@ -163,7 +186,6 @@
         .log-error { color: var(--error); }
         .log-sys { color: var(--text-muted); }
 
-        /* Tùy chỉnh thanh cuộn */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
@@ -190,7 +212,8 @@
     </div>
 
     <div class="form-group">
-        <label>2. Chọn Gói Nạp</label>
+        <label>2. Chọn Gói Nạp (Chỉ 1 gói)</label>
+        
         <div class="grid-layout grid-3" id="packageGrid">
             <div class="select-item pkg-item" data-id="7" onclick="selectPackage(this)">Gói Vàng</div>
             <div class="select-item pkg-item" data-id="904" onclick="selectPackage(this)">Lễ 100K</div>
@@ -198,11 +221,25 @@
             <div class="select-item pkg-item" data-id="908" onclick="selectPackage(this)">Lễ 2M</div>
             <div class="select-item pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
         </div>
+
+        <div class="dropdown-header" id="weeklyMenuBtn" onclick="toggleWeekly()">
+            <span>GÓI TUẦN (Mở rộng)</span>
+            <span id="weeklyIcon">▼</span>
+        </div>
+
+        <div class="grid-layout grid-3" id="weeklyPackages" style="display: none; margin-top: 10px;">
+            <div class="select-item pkg-item" data-id="401" onclick="selectPackage(this)">Tuần 10K</div>
+            <div class="select-item pkg-item" data-id="402" onclick="selectPackage(this)">Tuần 20K</div>
+            <div class="select-item pkg-item" data-id="403" onclick="selectPackage(this)">Tuần 50K</div>
+            <div class="select-item pkg-item" data-id="404" onclick="selectPackage(this)">Tuần 100K</div>
+            <div class="select-item pkg-item" data-id="405" onclick="selectPackage(this)">Tuần 200K</div>
+            <div class="select-item pkg-item" data-id="406" onclick="selectPackage(this)">Tuần 500K</div>
+        </div>
     </div>
 
     <div class="form-group">
         <label>3. Số lượng</label>
-        <input type="number" id="num" value="10" min="1" autocomplete="off">
+        <input type="number" id="num" value="1" min="1" autocomplete="off">
     </div>
 
     <button onclick="startProcess()" class="action-btn" id="btnAction">Thực Thi Giao Dịch</button>
@@ -216,12 +253,28 @@
     let currentProductId = null;
     let selectedChar = null;
 
+    // Xử lý bật/tắt Menu Gói Tuần
+    function toggleWeekly() {
+        const grid = document.getElementById('weeklyPackages');
+        const icon = document.getElementById('weeklyIcon');
+        const btn = document.getElementById('weeklyMenuBtn');
+        
+        if (grid.style.display === 'none') {
+            grid.style.display = 'grid';
+            icon.innerText = '▲';
+            btn.classList.add('open');
+        } else {
+            grid.style.display = 'none';
+            icon.innerText = '▼';
+            btn.classList.remove('open');
+        }
+    }
+
     // Xử lý chọn nhân vật
     function selectCharacter(element) {
         document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
         element.classList.add('active');
         
-        // Lưu data ẩn
         selectedChar = {
             username: element.getAttribute('data-user'),
             roleId: element.getAttribute('data-role'),
@@ -229,9 +282,12 @@
         };
     }
 
-    // Xử lý chọn gói
+    // Xử lý chọn gói (Logic bao trùm toàn bộ các gói)
     function selectPackage(element) {
+        // Dùng querySelectorAll quét SẠCH mọi gói (cả Lễ và Tuần) để xóa class 'active'
         document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('active'));
+        
+        // Bật sáng duy nhất gói vừa bấm
         element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
@@ -256,20 +312,18 @@
         const num = parseInt(document.getElementById('num').value) || 1;
         const btn = document.getElementById('btnAction');
         
-        // Link Render
+        // Link Render của bạn (Giữ nguyên)
         const proxyUrl = "https://bug-gold.onrender.com/buy";
 
         btn.disabled = true;
         btn.innerText = "Đang xử lý...";
         
         document.getElementById('logger').innerHTML = '';
-        // In log chỉ dùng displayName, giấu hoàn toàn username và roleId
         addLog(`Khởi chạy: Mua ${num} gói cho [${selectedChar.displayName}]`);
         
         for(let i = 1; i <= num; i++) {
             try {
-                // Server fix cứng là local_36
-                // Gửi username và roleId thật lên server qua biến ẩn
+                // Fix cứng local_36 và truyền thông tin qua URL
                 const targetUrl = `${proxyUrl}?srv_id=local_36&role_id=${selectedChar.roleId}&name=${selectedChar.username}&productId=${currentProductId}`;
                 
                 const res = await fetch(targetUrl);
