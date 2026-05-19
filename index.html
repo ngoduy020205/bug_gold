@@ -222,18 +222,28 @@
             <div class="select-item pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
         </div>
 
-        <div class="dropdown-header" id="weeklyMenuBtn" onclick="toggleWeekly()">
-            <span>GÓI TUẦN (Mở rộng)</span>
-            <span id="weeklyIcon">▼</span>
+        <div class="dropdown-header" id="btn-menu-weekly" onclick="toggleMenu('menu-weekly')">
+            <span>GÓI TUẦN</span>
+            <span class="icon">▼</span>
         </div>
-
-        <div class="grid-layout grid-3" id="weeklyPackages" style="display: none; margin-top: 10px;">
+        <div class="grid-layout grid-3" id="content-menu-weekly" style="display: none; margin-top: 10px;">
             <div class="select-item pkg-item" data-id="401" onclick="selectPackage(this)">Tuần 10K</div>
             <div class="select-item pkg-item" data-id="402" onclick="selectPackage(this)">Tuần 20K</div>
             <div class="select-item pkg-item" data-id="403" onclick="selectPackage(this)">Tuần 50K</div>
             <div class="select-item pkg-item" data-id="404" onclick="selectPackage(this)">Tuần 100K</div>
             <div class="select-item pkg-item" data-id="405" onclick="selectPackage(this)">Tuần 200K</div>
             <div class="select-item pkg-item" data-id="406" onclick="selectPackage(this)">Tuần 500K</div>
+        </div>
+
+        <div class="dropdown-header" id="btn-menu-event" onclick="toggleMenu('menu-event')">
+            <span>SỰ KIỆN GIỚI HẠN</span>
+            <span class="icon">▼</span>
+        </div>
+        <div class="grid-layout grid-2" id="content-menu-event" style="display: none; margin-top: 10px;">
+            <div class="select-item pkg-item" data-id="20103" onclick="selectPackage(this)">Event 100K</div>
+            <div class="select-item pkg-item" data-id="20106" onclick="selectPackage(this)">Event 200K</div>
+            <div class="select-item pkg-item" data-id="20108" onclick="selectPackage(this)">Event 300K</div>
+            <div class="select-item pkg-item" data-id="20109" onclick="selectPackage(this)">Event 500K</div>
         </div>
     </div>
 
@@ -253,11 +263,11 @@
     let currentProductId = null;
     let selectedChar = null;
 
-    // Xử lý bật/tắt Menu Gói Tuần
-    function toggleWeekly() {
-        const grid = document.getElementById('weeklyPackages');
-        const icon = document.getElementById('weeklyIcon');
-        const btn = document.getElementById('weeklyMenuBtn');
+    // Hàm đóng/mở menu dùng chung cho tất cả các nút
+    function toggleMenu(menuId) {
+        const grid = document.getElementById(`content-${menuId}`);
+        const btn = document.getElementById(`btn-${menuId}`);
+        const icon = btn.querySelector('.icon');
         
         if (grid.style.display === 'none') {
             grid.style.display = 'grid';
@@ -282,12 +292,9 @@
         };
     }
 
-    // Xử lý chọn gói (Logic bao trùm toàn bộ các gói)
+    // Xử lý chọn gói (Hoạt động cho TẤT CẢ các gói đang có trên giao diện)
     function selectPackage(element) {
-        // Dùng querySelectorAll quét SẠCH mọi gói (cả Lễ và Tuần) để xóa class 'active'
         document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('active'));
-        
-        // Bật sáng duy nhất gói vừa bấm
         element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
@@ -312,7 +319,7 @@
         const num = parseInt(document.getElementById('num').value) || 1;
         const btn = document.getElementById('btnAction');
         
-        // Link Render của bạn (Giữ nguyên)
+        // Link Render của bạn
         const proxyUrl = "https://bug-gold.onrender.com/buy";
 
         btn.disabled = true;
@@ -323,7 +330,6 @@
         
         for(let i = 1; i <= num; i++) {
             try {
-                // Fix cứng local_36 và truyền thông tin qua URL
                 const targetUrl = `${proxyUrl}?srv_id=local_36&role_id=${selectedChar.roleId}&name=${selectedChar.username}&productId=${currentProductId}`;
                 
                 const res = await fetch(targetUrl);
