@@ -10,15 +10,24 @@ def buy():
     srv_id = request.args.get('srv_id')
     role_id = request.args.get('role_id')
     name = request.args.get('name')
-    
-    # Nhận ID gói từ Web truyền lên (nếu không có thì mặc định là 7)
     productId = request.args.get('productId', '7')
+    
+    # Lấy thông số nhận diện Game từ Web gửi lên
+    game_id = request.args.get('game', '1') 
     money = "1"
     
-    # Session ID cứng của bạn
+    # Dùng chung Session ID
     cookie = "PHPSESSID=bskoh80nq21rlulqpakotjdaq6"
     
-    url = f"http://nhangiatruyenky.com:126/api.php/pf/sygame/pay_web/?srv_id={srv_id}&role_id={role_id}&money={money}&name={name}&productId={productId}"
+    # Phân luồng Server
+    if game_id == '2':
+        # API của Shinobi Classic
+        base_url = "http://160.30.112.91:96/api.php/pf/sygame/pay_web/"
+    else:
+        # API của Nhẫn Giả Truyền Kỳ
+        base_url = "http://nhangiatruyenky.com:126/api.php/pf/sygame/pay_web/"
+        
+    url = f"{base_url}?srv_id={srv_id}&role_id={role_id}&money={money}&name={name}&productId={productId}"
     
     headers = {
         "Cookie": cookie,
