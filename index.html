@@ -267,6 +267,7 @@
             <label>2. Chọn Gói Nạp (Chỉ 1 gói)</label>
             
             <div class="grid-layout grid-3">
+                <div class="select-item sh-pkg" data-id="21" onclick="selectPackage(this, 'sh-pkg')">Gói Vàng</div>
                 <div class="select-item sh-pkg" data-id="1905" onclick="selectPackage(this, 'sh-pkg')">Siêu Giảm 200K</div>
                 <div class="select-item sh-pkg" data-id="715" onclick="selectPackage(this, 'sh-pkg')">Giới Hạn 1.5M</div>
                 <div class="select-item sh-pkg" data-id="904" onclick="selectPackage(this, 'sh-pkg')">Lễ 1M</div>
@@ -420,7 +421,7 @@
                 alert("LỖI: Vui lòng nhập đầy đủ Name, Role ID và Server cho Shinobi Classic!"); return;
             }
             
-            // Tự động gán chữ symlf_ nếu người dùng chỉ nhập số 6
+            // Tự động gán chữ symlf_ nếu người dùng chỉ nhập số
             targetServer = rawServer.includes("symlf_") ? rawServer : `symlf_${rawServer}`;
             targetDisplayName = targetName; // Hiển thị nguyên username
             gameParam = "2"; // Mã nhận diện Shinobi Classic gửi cho Python
