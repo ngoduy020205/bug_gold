@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Auto Tool System</title>
+    <title>Auto Tool System Pro</title>
     <style>
         :root {
             --bg-body: #0a0a0a;
@@ -14,6 +14,8 @@
             --text-muted: #888;
             --accent: #007acc;
             --accent-hover: #005f9e;
+            --shinobi: #e65100;
+            --shinobi-hover: #ef6c00;
             --success: #4CAF50;
             --error: #f44336;
             --char-color: #9c27b0;
@@ -43,32 +45,40 @@
             margin-top: 2vh;
         }
 
-        h2 {
-            margin: 0 0 20px 0;
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-normal);
-            padding-bottom: 15px;
-        }
-
-        .form-group {
+        .tab-bar {
             display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-normal);
+            padding-bottom: 10px;
         }
 
-        label {
-            font-size: 12px;
+        .tab-btn {
+            flex: 1;
+            padding: 12px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        input[type="number"] {
+        .tab-btn.active.t-nhangia { background: var(--accent); color: white; }
+        .tab-btn.active.t-shinobi { background: var(--shinobi); color: white; }
+
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+
+        .form-group { display: flex; flex-direction: column; margin-bottom: 20px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .form-row .form-group { margin-bottom: 0; flex: 1; }
+
+        label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input {
             background: var(--bg-body);
             color: var(--text-main);
             border: 1px solid var(--border-normal);
@@ -77,21 +87,12 @@
             font-size: 14px;
             font-family: inherit;
             transition: border-color 0.2s;
-            text-align: center;
-            font-weight: bold;
         }
-
-        input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        input:focus { outline: none; border-color: var(--accent); }
+        input[type="number"] { text-align: center; font-weight: bold; }
 
         /* LƯỚI CHỌN CHUNG */
-        .grid-layout {
-            display: grid;
-            gap: 10px;
-        }
-        
+        .grid-layout { display: grid; gap: 10px; }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-3 { grid-template-columns: repeat(3, 1fr); }
 
@@ -112,22 +113,11 @@
         }
 
         .select-item:hover { border-color: #555; }
+        .pkg-item.active { border-color: var(--accent); background: rgba(0, 122, 204, 0.1); color: var(--accent); }
+        .sh-pkg.active { border-color: var(--shinobi); background: rgba(230, 81, 0, 0.1); color: var(--shinobi); }
+        .char-item.active { border-color: var(--char-color); background: var(--char-bg); color: var(--char-color); }
 
-        /* Nút Gói Quà */
-        .pkg-item.active {
-            border-color: var(--accent);
-            background: rgba(0, 122, 204, 0.1);
-            color: var(--accent);
-        }
-
-        /* Nút Nhân Vật */
-        .char-item.active {
-            border-color: var(--char-color);
-            background: var(--char-bg);
-            color: var(--char-color);
-        }
-
-        /* MENU XỔ XUỐNG (DROPDOWN) */
+        /* MENU XỔ XUỐNG */
         .dropdown-header {
             background: var(--bg-body);
             border: 1px solid var(--border-normal);
@@ -145,10 +135,8 @@
         }
 
         .dropdown-header:hover { border-color: #555; }
-        .dropdown-header.open {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .dropdown-header.open { border-color: var(--accent); color: var(--accent); }
+        .dropdown-header.open.sh-drop { border-color: var(--shinobi); color: var(--shinobi); }
 
         button.action-btn {
             width: 100%;
@@ -166,6 +154,8 @@
         }
 
         button.action-btn:hover { background: var(--accent-hover); }
+        button.action-btn.sh-btn { background: var(--shinobi); }
+        button.action-btn.sh-btn:hover { background: var(--shinobi-hover); }
         button.action-btn:disabled { background: var(--border-normal); color: var(--text-muted); cursor: not-allowed; }
 
         .log-box {
@@ -173,7 +163,7 @@
             background: var(--bg-body);
             border: 1px solid var(--border-normal);
             border-radius: 4px;
-            height: 180px;
+            height: 160px;
             overflow-y: auto;
             padding: 12px;
             font-family: 'Consolas', 'Courier New', Courier, monospace;
@@ -193,90 +183,174 @@
 
         @media (max-width: 400px) {
             .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .form-row { flex-direction: column; gap: 0; }
+            .form-row .form-group { margin-bottom: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="panel">
-    <h2>Auto Buy System</h2>
+    <div class="tab-bar">
+        <div class="tab-btn t-nhangia active" onclick="switchTab('nhangia')">Nhẫn Giả Truyền Kỳ</div>
+        <div class="tab-btn t-shinobi" onclick="switchTab('shinobi')">Shinobi Classic</div>
+    </div>
     
-    <div class="form-group">
-        <label>1. Chọn Nhân Vật</label>
-        <div class="grid-layout grid-2" id="characterGrid">
-            <div class="select-item char-item" data-user="acechuon93" data-role="281" data-name="SoiCoDoc" onclick="selectCharacter(this)">SoiCoDoc</div>
-            <div class="select-item char-item" data-user="Dyydzct6m" data-role="200" data-name="Dyydzct6m" onclick="selectCharacter(this)">Dyydzct6m</div>
-            <div class="select-item char-item" data-user="phongvu37gk" data-role="17" data-name="TobyRyan" onclick="selectCharacter(this)">TobyRyan</div>
-            <div class="select-item char-item" data-user="lequynhan" data-role="150" data-name="Gojo" onclick="selectCharacter(this)">Gojo</div>
+    <div id="nhangia" class="game-section active">
+        <div class="form-group">
+            <label>1. Chọn Nhân Vật (Nhẫn Giả)</label>
+            <div class="grid-layout grid-2" id="characterGrid">
+                <div class="select-item char-item" data-user="acechuon93" data-role="281" data-name="SoiCoDoc" onclick="selectCharacter(this)">SoiCoDoc</div>
+                <div class="select-item char-item" data-user="Dyydzct6m" data-role="200" data-name="Dyydzct6m" onclick="selectCharacter(this)">Dyydzct6m</div>
+                <div class="select-item char-item" data-user="phongvu37gk" data-role="17" data-name="TobyRyan" onclick="selectCharacter(this)">TobyRyan</div>
+                <div class="select-item char-item" data-user="lequynhan" data-role="150" data-name="Gojo" onclick="selectCharacter(this)">Gojo</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>2. Chọn Gói Nạp (Chỉ 1 gói)</label>
+            <div class="grid-layout grid-3">
+                <div class="select-item pkg-item" data-id="7" onclick="selectPackage(this, 'pkg-item')">Gói Vàng</div>
+                <div class="select-item pkg-item" data-id="904" onclick="selectPackage(this, 'pkg-item')">Lễ 100K</div>
+                <div class="select-item pkg-item" data-id="907" onclick="selectPackage(this, 'pkg-item')">Lễ 1M</div>
+                <div class="select-item pkg-item" data-id="908" onclick="selectPackage(this, 'pkg-item')">Lễ 2M</div>
+                <div class="select-item pkg-item" data-id="705" onclick="selectPackage(this, 'pkg-item')">Lễ 5M</div>
+            </div>
+
+            <div class="dropdown-header" id="btn-tuan-ng" onclick="toggleMenu('tuan-ng')">
+                <span>GÓI TUẦN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-tuan-ng" style="display: none; margin-top: 10px;">
+                <div class="select-item pkg-item" data-id="401" onclick="selectPackage(this, 'pkg-item')">Tuần 10K</div>
+                <div class="select-item pkg-item" data-id="402" onclick="selectPackage(this, 'pkg-item')">Tuần 20K</div>
+                <div class="select-item pkg-item" data-id="403" onclick="selectPackage(this, 'pkg-item')">Tuần 50K</div>
+                <div class="select-item pkg-item" data-id="404" onclick="selectPackage(this, 'pkg-item')">Tuần 100K</div>
+                <div class="select-item pkg-item" data-id="405" onclick="selectPackage(this, 'pkg-item')">Tuần 200K</div>
+                <div class="select-item pkg-item" data-id="406" onclick="selectPackage(this, 'pkg-item')">Tuần 500K</div>
+            </div>
+
+            <div class="dropdown-header" id="btn-thang-ng" onclick="toggleMenu('thang-ng')">
+                <span>GÓI THÁNG</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-thang-ng" style="display: none; margin-top: 10px;">
+                <div class="select-item pkg-item" data-id="411" onclick="selectPackage(this, 'pkg-item')">Tháng 10K</div>
+                <div class="select-item pkg-item" data-id="412" onclick="selectPackage(this, 'pkg-item')">Tháng 20K</div>
+                <div class="select-item pkg-item" data-id="413" onclick="selectPackage(this, 'pkg-item')">Tháng 50K</div>
+                <div class="select-item pkg-item" data-id="414" onclick="selectPackage(this, 'pkg-item')">Tháng 100K</div>
+                <div class="select-item pkg-item" data-id="415" onclick="selectPackage(this, 'pkg-item')">Tháng 200K</div>
+                <div class="select-item pkg-item" data-id="416" onclick="selectPackage(this, 'pkg-item')">Tháng 500K</div>
+            </div>
+
+            <div class="dropdown-header" id="btn-sk-ng" onclick="toggleMenu('sk-ng')">
+                <span>SỰ KIỆN GIỚI HẠN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-2" id="content-sk-ng" style="display: none; margin-top: 10px;">
+                <div class="select-item pkg-item" data-id="20103" onclick="selectPackage(this, 'pkg-item')">Event 100K</div>
+                <div class="select-item pkg-item" data-id="20106" onclick="selectPackage(this, 'pkg-item')">Event 200K</div>
+                <div class="select-item pkg-item" data-id="20108" onclick="selectPackage(this, 'pkg-item')">Event 300K</div>
+                <div class="select-item pkg-item" data-id="20109" onclick="selectPackage(this, 'pkg-item')">Event 500K</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="shinobi" class="game-section">
+        <div class="form-group">
+            <label>1. Nhập thông tin Nhân Vật (Shinobi)</label>
+            <input type="text" id="sh-name" placeholder="Username (VD: acechuon93)" style="margin-bottom: 10px;" autocomplete="off">
+            <div class="form-row">
+                <div class="form-group"><input type="text" id="sh-role" placeholder="Role ID" autocomplete="off"></div>
+                <div class="form-group"><input type="text" id="sh-server" placeholder="Server (VD: 6)" autocomplete="off"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>2. Chọn Gói Nạp (Chỉ 1 gói)</label>
+            
+            <div class="grid-layout grid-3">
+                <div class="select-item sh-pkg" data-id="1905" onclick="selectPackage(this, 'sh-pkg')">Siêu Giảm 200K</div>
+                <div class="select-item sh-pkg" data-id="715" onclick="selectPackage(this, 'sh-pkg')">Giới Hạn 1.5M</div>
+                <div class="select-item sh-pkg" data-id="904" onclick="selectPackage(this, 'sh-pkg')">Lễ 1M</div>
+                <div class="select-item sh-pkg" data-id="907" onclick="selectPackage(this, 'sh-pkg')">Lễ 2M</div>
+                <div class="select-item sh-pkg" data-id="908" onclick="selectPackage(this, 'sh-pkg')">Lễ 3M</div>
+            </div>
+
+            <div class="dropdown-header sh-drop" id="btn-tuan-sh" onclick="toggleMenu('tuan-sh')">
+                <span>GÓI TUẦN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-tuan-sh" style="display: none; margin-top: 10px;">
+                <div class="select-item sh-pkg" data-id="401" onclick="selectPackage(this, 'sh-pkg')">Tuần 10K</div>
+                <div class="select-item sh-pkg" data-id="402" onclick="selectPackage(this, 'sh-pkg')">Tuần 20K</div>
+                <div class="select-item sh-pkg" data-id="403" onclick="selectPackage(this, 'sh-pkg')">Tuần 50K</div>
+                <div class="select-item sh-pkg" data-id="404" onclick="selectPackage(this, 'sh-pkg')">Tuần 100K</div>
+                <div class="select-item sh-pkg" data-id="405" onclick="selectPackage(this, 'sh-pkg')">Tuần 200K</div>
+                <div class="select-item sh-pkg" data-id="406" onclick="selectPackage(this, 'sh-pkg')">Tuần 500K</div>
+            </div>
+
+            <div class="dropdown-header sh-drop" id="btn-thang-sh" onclick="toggleMenu('thang-sh')">
+                <span>GÓI THÁNG</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-thang-sh" style="display: none; margin-top: 10px;">
+                <div class="select-item sh-pkg" data-id="411" onclick="selectPackage(this, 'sh-pkg')">Tháng 10K</div>
+                <div class="select-item sh-pkg" data-id="412" onclick="selectPackage(this, 'sh-pkg')">Tháng 20K</div>
+                <div class="select-item sh-pkg" data-id="413" onclick="selectPackage(this, 'sh-pkg')">Tháng 50K</div>
+                <div class="select-item sh-pkg" data-id="414" onclick="selectPackage(this, 'sh-pkg')">Tháng 100K</div>
+                <div class="select-item sh-pkg" data-id="415" onclick="selectPackage(this, 'sh-pkg')">Tháng 200K</div>
+                <div class="select-item sh-pkg" data-id="416" onclick="selectPackage(this, 'sh-pkg')">Tháng 500K</div>
+            </div>
+
+            <div class="dropdown-header sh-drop" id="btn-sk-sh" onclick="toggleMenu('sk-sh')">
+                <span>SỰ KIỆN GIỚI HẠN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-2" id="content-sk-sh" style="display: none; margin-top: 10px;">
+                <div class="select-item sh-pkg" data-id="20103" onclick="selectPackage(this, 'sh-pkg')">Event 200K</div>
+                <div class="select-item sh-pkg" data-id="20106" onclick="selectPackage(this, 'sh-pkg')">Event 500K</div>
+                <div class="select-item sh-pkg" data-id="20108" onclick="selectPackage(this, 'sh-pkg')">Event 1M</div>
+                <div class="select-item sh-pkg" data-id="20109" onclick="selectPackage(this, 'sh-pkg')">Event 2M</div>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label>2. Chọn Gói Nạp (Chỉ 1 gói)</label>
-        
-        <div class="grid-layout grid-3" id="packageGrid">
-            <div class="select-item pkg-item" data-id="7" onclick="selectPackage(this)">Gói Vàng</div>
-            <div class="select-item pkg-item" data-id="904" onclick="selectPackage(this)">Lễ 100K</div>
-            <div class="select-item pkg-item" data-id="907" onclick="selectPackage(this)">Lễ 1M</div>
-            <div class="select-item pkg-item" data-id="908" onclick="selectPackage(this)">Lễ 2M</div>
-            <div class="select-item pkg-item" data-id="705" onclick="selectPackage(this)">Lễ 5M</div>
-        </div>
-
-        <div class="dropdown-header" id="btn-menu-weekly" onclick="toggleMenu('menu-weekly')">
-            <span>GÓI TUẦN</span>
-            <span class="icon">▼</span>
-        </div>
-        <div class="grid-layout grid-3" id="content-menu-weekly" style="display: none; margin-top: 10px;">
-            <div class="select-item pkg-item" data-id="401" onclick="selectPackage(this)">Tuần 10K</div>
-            <div class="select-item pkg-item" data-id="402" onclick="selectPackage(this)">Tuần 20K</div>
-            <div class="select-item pkg-item" data-id="403" onclick="selectPackage(this)">Tuần 50K</div>
-            <div class="select-item pkg-item" data-id="404" onclick="selectPackage(this)">Tuần 100K</div>
-            <div class="select-item pkg-item" data-id="405" onclick="selectPackage(this)">Tuần 200K</div>
-            <div class="select-item pkg-item" data-id="406" onclick="selectPackage(this)">Tuần 500K</div>
-        </div>
-
-        <div class="dropdown-header" id="btn-menu-monthly" onclick="toggleMenu('menu-monthly')">
-            <span>GÓI THÁNG</span>
-            <span class="icon">▼</span>
-        </div>
-        <div class="grid-layout grid-3" id="content-menu-monthly" style="display: none; margin-top: 10px;">
-            <div class="select-item pkg-item" data-id="411" onclick="selectPackage(this)">Tháng 10K</div>
-            <div class="select-item pkg-item" data-id="412" onclick="selectPackage(this)">Tháng 20K</div>
-            <div class="select-item pkg-item" data-id="413" onclick="selectPackage(this)">Tháng 50K</div>
-            <div class="select-item pkg-item" data-id="414" onclick="selectPackage(this)">Tháng 100K</div>
-            <div class="select-item pkg-item" data-id="415" onclick="selectPackage(this)">Tháng 200K</div>
-            <div class="select-item pkg-item" data-id="416" onclick="selectPackage(this)">Tháng 500K</div>
-        </div>
-
-        <div class="dropdown-header" id="btn-menu-event" onclick="toggleMenu('menu-event')">
-            <span>SỰ KIỆN GIỚI HẠN</span>
-            <span class="icon">▼</span>
-        </div>
-        <div class="grid-layout grid-2" id="content-menu-event" style="display: none; margin-top: 10px;">
-            <div class="select-item pkg-item" data-id="20103" onclick="selectPackage(this)">Event 100K</div>
-            <div class="select-item pkg-item" data-id="20106" onclick="selectPackage(this)">Event 200K</div>
-            <div class="select-item pkg-item" data-id="20108" onclick="selectPackage(this)">Event 300K</div>
-            <div class="select-item pkg-item" data-id="20109" onclick="selectPackage(this)">Event 500K</div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>3. Số lượng</label>
+        <label>3. Số lượng mua</label>
         <input type="number" id="num" value="1" min="1" autocomplete="off">
     </div>
 
     <button onclick="startProcess()" class="action-btn" id="btnAction">Thực Thi Giao Dịch</button>
 
     <div class="log-box" id="logger">
-        <div class="log-sys">System ready. Select target and package...</div>
+        <div class="log-sys">System ready. Waiting for action...</div>
     </div>
 </div>
 
 <script>
+    let activeTab = 'nhangia';
     let currentProductId = null;
     let selectedChar = null;
 
-    // Hàm đóng/mở menu dùng chung cho tất cả các nút
+    function switchTab(tabId) {
+        activeTab = tabId;
+        // Xóa class active ở tất cả tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.t-${tabId}`).classList.add('active');
+        
+        // Ẩn/Hiện game sections
+        document.querySelectorAll('.game-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        
+        // Đổi màu nút Action
+        const btnAction = document.getElementById('btnAction');
+        if (tabId === 'shinobi') {
+            btnAction.classList.add('sh-btn');
+        } else {
+            btnAction.classList.remove('sh-btn');
+        }
+
+        // Reset bộ chọn gói để tránh lỗi
+        currentProductId = null;
+        document.querySelectorAll('.pkg-item, .sh-pkg').forEach(item => item.classList.remove('active'));
+        document.getElementById('logger').innerHTML = '<div class="log-sys">Đã chuyển đổi hệ thống...</div>';
+    }
+
     function toggleMenu(menuId) {
         const grid = document.getElementById(`content-${menuId}`);
         const btn = document.getElementById(`btn-${menuId}`);
@@ -293,11 +367,9 @@
         }
     }
 
-    // Xử lý chọn nhân vật
     function selectCharacter(element) {
         document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
         element.classList.add('active');
-        
         selectedChar = {
             username: element.getAttribute('data-user'),
             roleId: element.getAttribute('data-role'),
@@ -305,9 +377,9 @@
         };
     }
 
-    // Xử lý chọn gói (Hoạt động cho TẤT CẢ các gói đang có trên giao diện)
-    function selectPackage(element) {
-        document.querySelectorAll('.pkg-item').forEach(item => item.classList.remove('active'));
+    // Logic chọn gói được tách riêng class theo Game để không bị chéo
+    function selectPackage(element, className) {
+        document.querySelectorAll(`.${className}`).forEach(item => item.classList.remove('active'));
         element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
@@ -320,30 +392,53 @@
     }
 
     async function startProcess() {
-        if (!selectedChar) {
-            alert("LỖI: Bạn chưa chọn Nhân vật!");
-            return;
-        }
+        // Validation chung
         if (!currentProductId) {
             alert("LỖI: Bạn chưa chọn Gói nạp!");
             return;
         }
 
+        let targetName, targetRole, targetServer, targetDisplayName;
+        let gameParam = "1"; // Mặc định là Nhẫn Giả
+        
+        // Lấy thông số dựa trên Tab đang mở
+        if (activeTab === 'nhangia') {
+            if (!selectedChar) {
+                alert("LỖI: Bạn chưa chọn Nhân vật!"); return;
+            }
+            targetName = selectedChar.username;
+            targetRole = selectedChar.roleId;
+            targetServer = "local_36";
+            targetDisplayName = selectedChar.displayName;
+            gameParam = "1";
+        } else {
+            targetName = document.getElementById('sh-name').value.trim();
+            targetRole = document.getElementById('sh-role').value.trim();
+            let rawServer = document.getElementById('sh-server').value.trim();
+            
+            if (!targetName || !targetRole || !rawServer) {
+                alert("LỖI: Vui lòng nhập đầy đủ Name, Role ID và Server cho Shinobi Classic!"); return;
+            }
+            
+            // Tự động gán chữ symlf_ nếu người dùng chỉ nhập số 6
+            targetServer = rawServer.includes("symlf_") ? rawServer : `symlf_${rawServer}`;
+            targetDisplayName = targetName; // Hiển thị nguyên username
+            gameParam = "2"; // Mã nhận diện Shinobi Classic gửi cho Python
+        }
+
         const num = parseInt(document.getElementById('num').value) || 1;
         const btn = document.getElementById('btnAction');
-        
-        // Link Render của bạn
         const proxyUrl = "https://bug-gold.onrender.com/buy";
 
         btn.disabled = true;
         btn.innerText = "Đang xử lý...";
-        
         document.getElementById('logger').innerHTML = '';
-        addLog(`Khởi chạy: Mua ${num} gói cho [${selectedChar.displayName}]`);
+        addLog(`Khởi chạy: Mua ${num} gói cho [${targetDisplayName}]`);
         
         for(let i = 1; i <= num; i++) {
             try {
-                const targetUrl = `${proxyUrl}?srv_id=local_36&role_id=${selectedChar.roleId}&name=${selectedChar.username}&productId=${currentProductId}`;
+                // Nhét thêm gameParam vào URL
+                const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}`;
                 
                 const res = await fetch(targetUrl);
                 const text = await res.text();
@@ -352,8 +447,7 @@
             } catch(e) {
                 addLog(`[${i}/${num}] ERR: Connection Failed`, 'error');
             }
-            
-            await new Promise(r => setTimeout(r, 100)); // Delay 100ms
+            await new Promise(r => setTimeout(r, 100));
         }
         
         addLog(`Giao dịch hoàn tất.`, 'sys');
