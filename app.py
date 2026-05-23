@@ -21,7 +21,7 @@ def buy():
     
     # Phân luồng Server
     if game_id == '3':
-        base_url = "http://160.30.113.78:92/api.php/pf/sygame/pay_web/"
+        base_url = "http://160.30.113.78:1118/api.php/pf/sygame/pay_web/"
     elif game_id == '2':
         base_url = "http://160.30.112.91:96/api.php/pf/sygame/pay_web/"
     else:
