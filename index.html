@@ -366,13 +366,11 @@
         document.querySelectorAll('.game-section').forEach(sec => sec.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         
-        // Đổi màu nút Action theo từng Game
         const btnAction = document.getElementById('btnAction');
         btnAction.classList.remove('hk-btn', 'my-btn');
         if (tabId === 'hokage') btnAction.classList.add('hk-btn');
         if (tabId === 'mythic') btnAction.classList.add('my-btn');
 
-        // Reset dữ liệu để tránh bug chéo Game
         currentProductId = null;
         document.querySelectorAll('.hk-pkg, .my-pkg').forEach(item => item.classList.remove('active'));
         document.getElementById('logger').innerHTML = '<div class="log-sys">Đã chuyển đổi hệ thống...</div>';
@@ -455,7 +453,8 @@
         
         for(let i = 1; i <= num; i++) {
             try {
-                const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}`;
+                // Đã ép cứng money=1 vào URL để gửi trực tiếp cho Proxy Server
+                const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}&money=1`;
                 
                 const res = await fetch(targetUrl);
                 const text = await res.text();
