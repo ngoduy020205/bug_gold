@@ -13,10 +13,12 @@
             --text-muted: #888;
             
             /* Theme Colors */
-            --hokage: #009688;        
-            --hokage-hover: #00796b;
-            --hocvien: #3f51b5;       /* Xanh biển đậm cho Học Viện */
+            --uchia: #673ab7;         /* Tím Uchiha */
+            --uchia-hover: #512da8;
+            --hocvien: #3f51b5;       /* Xanh Học Viện */
             --hocvien-hover: #303f9f;
+            --hokage: #009688;        /* Xanh Hokage */
+            --hokage-hover: #00796b;
             
             --success: #4CAF50;
             --error: #f44336;
@@ -50,7 +52,7 @@
         /* TAB BAR */
         .tab-bar {
             display: flex;
-            gap: 10px;
+            gap: 5px;
             margin-bottom: 25px;
             border-bottom: 2px solid var(--border-normal);
             padding-bottom: 10px;
@@ -58,10 +60,10 @@
 
         .tab-btn {
             flex: 1;
-            padding: 12px 5px;
+            padding: 10px 2px;
             text-align: center;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 11px;
             color: var(--text-muted);
             cursor: pointer;
             border-radius: 4px;
@@ -69,8 +71,9 @@
             text-transform: uppercase;
         }
 
-        .tab-btn.active.t-hokage { background: var(--hokage); color: white; }
+        .tab-btn.active.t-uchia { background: var(--uchia); color: white; }
         .tab-btn.active.t-hocvien { background: var(--hocvien); color: white; }
+        .tab-btn.active.t-hokage { background: var(--hokage); color: white; }
 
         .game-section { display: none; }
         .game-section.active { display: block; }
@@ -117,8 +120,9 @@
 
         .select-item:hover { border-color: #555; }
         
-        .hk-pkg.active { border-color: var(--hokage); background: rgba(0, 150, 136, 0.1); color: var(--hokage); }
+        .uc-pkg.active { border-color: var(--uchia); background: rgba(103, 58, 183, 0.1); color: var(--uchia); }
         .hv-pkg.active { border-color: var(--hocvien); background: rgba(63, 81, 181, 0.1); color: var(--hocvien); }
+        .hk-pkg.active { border-color: var(--hokage); background: rgba(0, 150, 136, 0.1); color: var(--hokage); }
         .char-item.active { border-color: var(--char-color); background: var(--char-bg); color: var(--char-color); }
 
         /* MENU XỔ XUỐNG */
@@ -138,8 +142,9 @@
         }
 
         .dropdown-header:hover { border-color: #555; }
-        .dropdown-header.open.hk-drop { border-color: var(--hokage); color: var(--hokage); }
+        .dropdown-header.open.uc-drop { border-color: var(--uchia); color: var(--uchia); }
         .dropdown-header.open.hv-drop { border-color: var(--hocvien); color: var(--hocvien); }
+        .dropdown-header.open.hk-drop { border-color: var(--hokage); color: var(--hokage); }
 
         /* BUTTON THỰC THI */
         button.action-btn {
@@ -157,11 +162,14 @@
             transition: background 0.2s;
         }
 
-        button.action-btn.hk-btn { background: var(--hokage); }
-        button.action-btn.hk-btn:hover { background: var(--hokage-hover); }
+        button.action-btn.uc-btn { background: var(--uchia); }
+        button.action-btn.uc-btn:hover { background: var(--uchia-hover); }
         
         button.action-btn.hv-btn { background: var(--hocvien); }
         button.action-btn.hv-btn:hover { background: var(--hocvien-hover); }
+
+        button.action-btn.hk-btn { background: var(--hokage); }
+        button.action-btn.hk-btn:hover { background: var(--hokage-hover); }
         
         button.action-btn:disabled { background: var(--border-normal) !important; color: var(--text-muted); cursor: not-allowed; }
 
@@ -199,11 +207,81 @@
 
 <div class="panel">
     <div class="tab-bar">
-        <div class="tab-btn t-hocvien active" onclick="switchTab('hocvien')">Học Viện Shinobi</div>
+        <div class="tab-btn t-uchia active" onclick="switchTab('uchia')">Uchia Truyền Kỳ</div>
+        <div class="tab-btn t-hocvien" onclick="switchTab('hocvien')">Học Viện Shinobi</div>
         <div class="tab-btn t-hokage" onclick="switchTab('hokage')">Hokage Saga</div>
     </div>
     
-    <div id="hocvien" class="game-section active">
+    <div id="uchia" class="game-section active">
+        <div class="form-group">
+            <label>1. Nhập thông tin Nhân Vật (Uchia)</label>
+            <input type="text" id="uc-name" placeholder="Username (VD: acechuon93)" style="margin-bottom: 10px;" autocomplete="off">
+            <div class="form-row">
+                <div class="form-group"><input type="text" id="uc-role" placeholder="Role ID" autocomplete="off"></div>
+                <div class="form-group"><input type="text" id="uc-server" placeholder="Server ID (VD: 2)" autocomplete="off"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>2. Chọn Gói Nạp (Chỉ chọn 1)</label>
+            <div class="grid-layout grid-2">
+                <div class="select-item uc-pkg" data-id="21" onclick="selectPackage(this, 'uc-pkg')">Gói Vàng</div>
+                <div class="select-item uc-pkg" data-id="35108" onclick="selectPackage(this, 'uc-pkg')">Hot 300K</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-gioihan-uc" onclick="toggleMenu('gioihan-uc', 'uc-drop')">
+                <span>GIỚI HẠN SERVER</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-2" id="content-gioihan-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="801" onclick="selectPackage(this, 'uc-pkg')">5K Xu</div>
+                <div class="select-item uc-pkg" data-id="804" onclick="selectPackage(this, 'uc-pkg')">25K Xu</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-sieuloi-uc" onclick="toggleMenu('sieuloi-uc', 'uc-drop')">
+                <span>QUỸ SIÊU LỜI</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-2" id="content-sieuloi-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="102" onclick="selectPackage(this, 'uc-pkg')">100K Xu</div>
+                <div class="select-item uc-pkg" data-id="103" onclick="selectPackage(this, 'uc-pkg')">150K Xu</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-taphoa-uc" onclick="toggleMenu('taphoa-uc', 'uc-drop')">
+                <span>TẠP HÓA</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-4" id="content-taphoa-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="20103" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 100K</div>
+                <div class="select-item uc-pkg" data-id="20106" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 200K</div>
+                <div class="select-item uc-pkg" data-id="20108" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 300K</div>
+                <div class="select-item uc-pkg" data-id="20109" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 500K</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-tuan-uc" onclick="toggleMenu('tuan-uc', 'uc-drop')">
+                <span>GÓI TUẦN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-tuan-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="400" onclick="selectPackage(this, 'uc-pkg')">Tuần 10K</div>
+                <div class="select-item uc-pkg" data-id="401" onclick="selectPackage(this, 'uc-pkg')">Tuần 20K</div>
+                <div class="select-item uc-pkg" data-id="402" onclick="selectPackage(this, 'uc-pkg')">Tuần 50K</div>
+                <div class="select-item uc-pkg" data-id="403" onclick="selectPackage(this, 'uc-pkg')">Tuần 100K</div>
+                <div class="select-item uc-pkg" data-id="404" onclick="selectPackage(this, 'uc-pkg')">Tuần 150K</div>
+                <div class="select-item uc-pkg" data-id="405" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-thang-uc" onclick="toggleMenu('thang-uc', 'uc-drop')">
+                <span>GÓI THÁNG</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-thang-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="410" onclick="selectPackage(this, 'uc-pkg')">Tháng 10K</div>
+                <div class="select-item uc-pkg" data-id="411" onclick="selectPackage(this, 'uc-pkg')">Tháng 20K</div>
+                <div class="select-item uc-pkg" data-id="412" onclick="selectPackage(this, 'uc-pkg')">Tháng 50K</div>
+                <div class="select-item uc-pkg" data-id="413" onclick="selectPackage(this, 'uc-pkg')">Tháng 100K</div>
+                <div class="select-item uc-pkg" data-id="414" onclick="selectPackage(this, 'uc-pkg')">Tháng 150K</div>
+                <div class="select-item uc-pkg" data-id="415" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hocvien" class="game-section">
         <div class="form-group">
             <label>1. Nhập thông tin Nhân Vật (Học Viện Shinobi)</label>
             <input type="text" id="hv-name" placeholder="Username (VD: acechuon93)" style="margin-bottom: 10px;" autocomplete="off">
@@ -215,7 +293,6 @@
 
         <div class="form-group">
             <label>2. Chọn Gói Nạp (Chỉ chọn 1)</label>
-            
             <div class="grid-layout grid-2">
                 <div class="select-item hv-pkg" data-id="21" onclick="selectPackage(this, 'hv-pkg')">Gói Vàng</div>
                 <div class="select-item hv-pkg" data-id="35108" onclick="selectPackage(this, 'hv-pkg')">Hot 300K</div>
@@ -333,7 +410,7 @@
         <input type="number" id="num" value="1" min="1" autocomplete="off">
     </div>
 
-    <button onclick="startProcess()" class="action-btn hv-btn" id="btnAction">Thực Thi Giao Dịch</button>
+    <button onclick="startProcess()" class="action-btn uc-btn" id="btnAction">Thực Thi Giao Dịch</button>
 
     <div class="log-box" id="logger">
         <div class="log-sys">Hệ thống đã sẵn sàng...</div>
@@ -341,8 +418,7 @@
 </div>
 
 <script>
-    // Học viện hiển thị đầu tiên
-    let activeTab = 'hocvien';
+    let activeTab = 'uchia';
     let currentProductId = null;
     let selectedChar = null;
 
@@ -355,12 +431,13 @@
         document.getElementById(tabId).classList.add('active');
         
         const btnAction = document.getElementById('btnAction');
-        btnAction.classList.remove('hk-btn', 'hv-btn');
+        btnAction.classList.remove('hk-btn', 'hv-btn', 'uc-btn');
         if (tabId === 'hokage') btnAction.classList.add('hk-btn');
         if (tabId === 'hocvien') btnAction.classList.add('hv-btn');
+        if (tabId === 'uchia') btnAction.classList.add('uc-btn');
 
         currentProductId = null;
-        document.querySelectorAll('.hk-pkg, .hv-pkg').forEach(item => item.classList.remove('active'));
+        document.querySelectorAll('.hk-pkg, .hv-pkg, .uc-pkg').forEach(item => item.classList.remove('active'));
         document.getElementById('logger').innerHTML = '<div class="log-sys">Đã chuyển đổi hệ thống...</div>';
     }
 
@@ -411,23 +488,31 @@
         }
 
         let targetName, targetRole, targetServer, targetDisplayName;
-        let gameParam = "4"; // Mặc định Học Viện
+        let gameParam = "5"; 
         
-        if (activeTab === 'hocvien') {
+        if (activeTab === 'uchia') {
+            targetName = document.getElementById('uc-name').value.trim();
+            targetRole = document.getElementById('uc-role').value.trim();
+            let rawServer = document.getElementById('uc-server').value.trim();
+            if (!targetName || !targetRole || !rawServer) { alert("LỖI: Nhập đủ Name, Role ID, Server cho Uchia Truyền Kỳ!"); return; }
+            targetServer = rawServer.includes("symlf_") ? rawServer : `symlf_${rawServer}`;
+            targetDisplayName = targetName;
+            gameParam = "5"; 
+        } else if (activeTab === 'hocvien') {
             targetName = document.getElementById('hv-name').value.trim();
             targetRole = document.getElementById('hv-role').value.trim();
             let rawServer = document.getElementById('hv-server').value.trim();
             if (!targetName || !targetRole || !rawServer) { alert("LỖI: Nhập đủ Name, Role ID, Server cho Học Viện!"); return; }
             targetServer = rawServer.includes("symlf_") ? rawServer : `symlf_${rawServer}`;
             targetDisplayName = targetName;
-            gameParam = "4"; // Gửi luồng 4 cho Học Viện
+            gameParam = "4"; 
         } else if (activeTab === 'hokage') {
             if (!selectedChar) { alert("LỖI: Bạn chưa chọn Nhân vật!"); return; }
             targetName = selectedChar.username;
             targetRole = selectedChar.roleId;
             targetServer = "symlf_28";
             targetDisplayName = selectedChar.displayName;
-            gameParam = "3"; // Gửi luồng 3 cho Hokage
+            gameParam = "3"; 
         }
 
         const num = parseInt(document.getElementById('num').value) || 1;
@@ -441,7 +526,7 @@
         
         for(let i = 1; i <= num; i++) {
             try {
-                // Luôn ép money=1 trong mọi giao dịch
+                // Luôn ép ghim cứng money=1 ở cuối chuỗi URL
                 const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}&money=1`;
                 
                 const res = await fetch(targetUrl);
@@ -450,7 +535,7 @@
             } catch(e) {
                 addLog(`[${i}/${num}] ERR: Lỗi kết nối Server!`, 'error');
             }
-            await new Promise(r => setTimeout(r, 100)); // Delay 100ms
+            await new Promise(r => setTimeout(r, 100)); 
         }
         
         addLog(`Giao dịch hoàn tất.`, 'sys');
