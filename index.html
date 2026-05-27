@@ -224,9 +224,10 @@
 
         <div class="form-group">
             <label>2. Chọn Gói Nạp (Chỉ chọn 1)</label>
-            <div class="grid-layout grid-2">
+            <div class="grid-layout grid-3">
                 <div class="select-item uc-pkg" data-id="21" onclick="selectPackage(this, 'uc-pkg')">Gói Vàng</div>
                 <div class="select-item uc-pkg" data-id="35108" onclick="selectPackage(this, 'uc-pkg')">Hot 300K</div>
+                <div class="select-item uc-pkg" data-id="912" onclick="selectPackage(this, 'uc-pkg')">HOT 50K</div>
             </div>
 
             <div class="dropdown-header uc-drop" id="btn-gioihan-uc" onclick="toggleMenu('gioihan-uc', 'uc-drop')">
@@ -235,6 +236,34 @@
             <div class="grid-layout grid-2" id="content-gioihan-uc" style="display: none; margin-top: 10px;">
                 <div class="select-item uc-pkg" data-id="801" onclick="selectPackage(this, 'uc-pkg')">5K Xu</div>
                 <div class="select-item uc-pkg" data-id="804" onclick="selectPackage(this, 'uc-pkg')">25K Xu</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-quagioihan-uc" onclick="toggleMenu('quagioihan-uc', 'uc-drop')">
+                <span>QUÀ GIỚI HẠN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-quagioihan-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="910354" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 50K</div>
+                <div class="select-item uc-pkg" data-id="910355" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 100K</div>
+                <div class="select-item uc-pkg" data-id="910356" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 150K</div>
+                <div class="select-item uc-pkg" data-id="910351" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 200K</div>
+                <div class="select-item uc-pkg" data-id="910357" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 250K</div>
+                <div class="select-item uc-pkg" data-id="910352" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 300K</div>
+                <div class="select-item uc-pkg" data-id="910358" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 350K</div>
+                <div class="select-item uc-pkg" data-id="910353" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 400K</div>
+                <div class="select-item uc-pkg" data-id="910359" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 500K</div>
+                <div class="select-item uc-pkg" data-id="910360" onclick="selectPackage(this, 'uc-pkg')">G.Hạn 700K</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-mungmaychu-uc" onclick="toggleMenu('mungmaychu-uc', 'uc-drop')">
+                <span>MỪNG MÁY CHỦ</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-3" id="content-mungmaychu-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="9100611" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 350K</div>
+                <div class="select-item uc-pkg" data-id="9100622" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 1M</div>
+                <div class="select-item uc-pkg" data-id="9100633" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 2M5</div>
+                <div class="select-item uc-pkg" data-id="9100644" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 5M</div>
+                <div class="select-item uc-pkg" data-id="9100655" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 5M5</div>
+                <div class="select-item uc-pkg" data-id="9100666" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 6M</div>
             </div>
 
             <div class="dropdown-header uc-drop" id="btn-sieuloi-uc" onclick="toggleMenu('sieuloi-uc', 'uc-drop')">
@@ -253,6 +282,13 @@
                 <div class="select-item uc-pkg" data-id="20106" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 200K</div>
                 <div class="select-item uc-pkg" data-id="20108" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 300K</div>
                 <div class="select-item uc-pkg" data-id="20109" onclick="selectPackage(this, 'uc-pkg')">T.Hóa 500K</div>
+            </div>
+
+            <div class="dropdown-header uc-drop" id="btn-le-uc" onclick="toggleMenu('le-uc', 'uc-drop')">
+                <span>GÓI LỄ TÌNH NHÂN</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-2" id="content-le-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="716" onclick="selectPackage(this, 'uc-pkg')">Tình Nhân 150K</div>
             </div>
 
             <div class="dropdown-header uc-drop" id="btn-tuan-uc" onclick="toggleMenu('tuan-uc', 'uc-drop')">
@@ -274,7 +310,7 @@
                 <div class="select-item uc-pkg" data-id="410" onclick="selectPackage(this, 'uc-pkg')">Tháng 10K</div>
                 <div class="select-item uc-pkg" data-id="411" onclick="selectPackage(this, 'uc-pkg')">Tháng 20K</div>
                 <div class="select-item uc-pkg" data-id="412" onclick="selectPackage(this, 'uc-pkg')">Tháng 50K</div>
-                <div class="select-item uc-pkg" data-id="413" onclick="selectPackage(this, 'uc-pkg')">Tháng 100K</div>
+                <div class="select-item uc-pkg" data-id="413" onclick="selectPackage(this, 'hk-pkg')">Tháng 100K</div>
                 <div class="select-item uc-pkg" data-id="414" onclick="selectPackage(this, 'uc-pkg')">Tháng 150K</div>
                 <div class="select-item uc-pkg" data-id="415" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K</div>
             </div>
@@ -457,6 +493,7 @@
         }
     }
 
+    // Chọn nhân vật
     function selectCharacter(element) {
         document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
         element.classList.add('active');
@@ -468,12 +505,14 @@
         };
     }
 
+    // Chọn gói nạp
     function selectPackage(element, className) {
         document.querySelectorAll(`.${className}`).forEach(item => item.classList.remove('active'));
         element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
 
+    // Ghi Log hệ thống
     function addLog(msg, type = 'sys') {
         const logger = document.getElementById('logger');
         const className = type === 'success' ? 'log-success' : type === 'error' ? 'log-error' : 'log-sys';
@@ -481,6 +520,7 @@
         logger.scrollTop = logger.scrollHeight;
     }
 
+    // Thực thi nạp chu kỳ vòng lặp
     async function startProcess() {
         if (!currentProductId) {
             alert("LỖI: Bạn chưa chọn Gói nạp!");
@@ -526,7 +566,7 @@
         
         for(let i = 1; i <= num; i++) {
             try {
-                // Luôn ép ghim cứng money=1 ở cuối chuỗi URL
+                // Luôn ép ghim cứng money=1 ở cuối chuỗi URL gửi đi
                 const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}&money=1`;
                 
                 const res = await fetch(targetUrl);
