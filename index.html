@@ -218,7 +218,7 @@
     =================================================== -->
     <div id="uchia" class="game-section active">
         <div class="form-group">
-            <label>1. Nhập thông tin Nhân Vật (Uchia)</label>
+            <label>1. Nhập thông Nhân Vật (Uchia)</label>
             <input type="text" id="uc-name" placeholder="Username (VD: acechuon93)" style="margin-bottom: 10px;" autocomplete="off">
             <div class="form-row">
                 <div class="form-group"><input type="text" id="uc-role" placeholder="Role ID" autocomplete="off"></div>
@@ -263,12 +263,12 @@
                 <span>MỪNG MÁY CHỦ</span><span class="icon">▼</span>
             </div>
             <div class="grid-layout grid-3" id="content-mungmaychu-uc" style="display: none; margin-top: 10px;">
-                <div class="select-item uc-pkg" data-id="9100611" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 350K</div>
-                <div class="select-item uc-pkg" data-id="9100622" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 1M</div>
-                <div class="select-item uc-pkg" data-id="9100633" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 2M5</div>
-                <div class="select-item uc-pkg" data-id="9100644" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 5M</div>
-                <div class="select-item uc-pkg" data-id="9100655" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 5M5</div>
-                <div class="select-item uc-pkg" data-id="9100666" onclick="selectPackage(this, 'uc-pkg')">Mừng SC 6M</div>
+                <div class="select-item uc-pkg" data-id="9100611" onclick="selectPackage(this, 'uc-pkg')">Mừng 350K</div>
+                <div class="select-item uc-pkg" data-id="9100622" onclick="selectPackage(this, 'uc-pkg')">Mừng 1M</div>
+                <div class="select-item uc-pkg" data-id="9100633" onclick="selectPackage(this, 'uc-pkg')">Mừng 2M5</div>
+                <div class="select-item uc-pkg" data-id="9100644" onclick="selectPackage(this, 'uc-pkg')">Mừng 5M</div>
+                <div class="select-item uc-pkg" data-id="9100655" onclick="selectPackage(this, 'uc-pkg')">Mừng 5M5</div>
+                <div class="select-item uc-pkg" data-id="9100666" onclick="selectPackage(this, 'uc-pkg')">Mừng 6M</div>
             </div>
 
             <div class="dropdown-header uc-drop" id="btn-sieuloi-uc" onclick="toggleMenu('sieuloi-uc', 'uc-drop')">
@@ -292,10 +292,11 @@
             <div class="dropdown-header uc-drop" id="btn-le-uc" onclick="toggleMenu('le-uc', 'uc-drop')">
                 <span>GÓI LỄ TÌNH NHÂN</span><span class="icon">▼</span>
             </div>
-            <div class="grid-layout grid-2" id="content-le-uc" style="display: none; margin-top: 10px;">
+            <div class="grid-layout grid-1" id="content-le-uc" style="display: none; margin-top: 10px;">
                 <div class="select-item uc-pkg" data-id="716" onclick="selectPackage(this, 'uc-pkg')">Tình Nhân 150K</div>
             </div>
 
+            <!-- GÓI TUẦN CHUẨN ID TỪ 400 ĐẾN 409 -->
             <div class="dropdown-header uc-drop" id="btn-tuan-uc" onclick="toggleMenu('tuan-uc', 'uc-drop')">
                 <span>GÓI TUẦN</span><span class="icon">▼</span>
             </div>
@@ -305,9 +306,14 @@
                 <div class="select-item uc-pkg" data-id="402" onclick="selectPackage(this, 'uc-pkg')">Tuần 50K</div>
                 <div class="select-item uc-pkg" data-id="403" onclick="selectPackage(this, 'uc-pkg')">Tuần 100K</div>
                 <div class="select-item uc-pkg" data-id="404" onclick="selectPackage(this, 'uc-pkg')">Tuần 150K</div>
-                <div class="select-item uc-pkg" data-id="405" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K</div>
+                <div class="select-item uc-pkg" data-id="405" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (1)</div>
+                <div class="select-item uc-pkg" data-id="406" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (2)</div>
+                <div class="select-item uc-pkg" data-id="407" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (3)</div>
+                <div class="select-item uc-pkg" data-id="408" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (4)</div>
+                <div class="select-item uc-pkg" data-id="409" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (5)</div>
             </div>
 
+            <!-- GÓI THÁNG CHUẨN ID TỪ 410 ĐẾN 419 -->
             <div class="dropdown-header uc-drop" id="btn-thang-uc" onclick="toggleMenu('thang-uc', 'uc-drop')">
                 <span>GÓI THÁNG</span><span class="icon">▼</span>
             </div>
@@ -315,9 +321,13 @@
                 <div class="select-item uc-pkg" data-id="410" onclick="selectPackage(this, 'uc-pkg')">Tháng 10K</div>
                 <div class="select-item uc-pkg" data-id="411" onclick="selectPackage(this, 'uc-pkg')">Tháng 20K</div>
                 <div class="select-item uc-pkg" data-id="412" onclick="selectPackage(this, 'uc-pkg')">Tháng 50K</div>
-                <div class="select-item uc-pkg" data-id="413" onclick="selectPackage(this, 'hk-pkg')">Tháng 100K</div>
+                <div class="select-item uc-pkg" data-id="413" onclick="selectPackage(this, 'uc-pkg')">Tháng 100K</div>
                 <div class="select-item uc-pkg" data-id="414" onclick="selectPackage(this, 'uc-pkg')">Tháng 150K</div>
-                <div class="select-item uc-pkg" data-id="415" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K</div>
+                <div class="select-item uc-pkg" data-id="415" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K (1)</div>
+                <div class="select-item uc-pkg" data-id="416" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K (2)</div>
+                <div class="select-item uc-pkg" data-id="417" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K (3)</div>
+                <div class="select-item uc-pkg" data-id="418" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K (4)</div>
+                <div class="select-item uc-pkg" data-id="419" onclick="selectPackage(this, 'uc-pkg')">Tháng 200K (5)</div>
             </div>
         </div>
     </div>
