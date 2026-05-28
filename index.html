@@ -207,11 +207,15 @@
 
 <div class="panel">
     <div class="tab-bar">
+        <!-- Đảo Uchia lên đầu, làm Tab mặc định -->
         <div class="tab-btn t-uchia active" onclick="switchTab('uchia')">Uchia Truyền Kỳ</div>
         <div class="tab-btn t-hocvien" onclick="switchTab('hocvien')">Học Viện Shinobi</div>
         <div class="tab-btn t-hokage" onclick="switchTab('hokage')">Hokage Saga</div>
     </div>
     
+    <!-- ==============================================
+                     1. UCHIA TRUYỀN KỲ (MẶC ĐỊNH)
+    =================================================== -->
     <div id="uchia" class="game-section active">
         <div class="form-group">
             <label>1. Nhập thông tin Nhân Vật (Uchia)</label>
@@ -233,9 +237,10 @@
             <div class="dropdown-header uc-drop" id="btn-gioihan-uc" onclick="toggleMenu('gioihan-uc', 'uc-drop')">
                 <span>GIỚI HẠN SERVER</span><span class="icon">▼</span>
             </div>
-            <div class="grid-layout grid-2" id="content-gioihan-uc" style="display: none; margin-top: 10px;">
+            <div class="grid-layout grid-3" id="content-gioihan-uc" style="display: none; margin-top: 10px;">
                 <div class="select-item uc-pkg" data-id="801" onclick="selectPackage(this, 'uc-pkg')">5K Xu</div>
                 <div class="select-item uc-pkg" data-id="804" onclick="selectPackage(this, 'uc-pkg')">25K Xu</div>
+                <div class="select-item uc-pkg" data-id="808" onclick="selectPackage(this, 'uc-pkg')">150K Xu</div>
             </div>
 
             <div class="dropdown-header uc-drop" id="btn-quagioihan-uc" onclick="toggleMenu('quagioihan-uc', 'uc-drop')">
@@ -317,6 +322,9 @@
         </div>
     </div>
 
+    <!-- ==============================================
+                     2. HỌC VIỆN SHINOBI
+    =================================================== -->
     <div id="hocvien" class="game-section">
         <div class="form-group">
             <label>1. Nhập thông tin Nhân Vật (Học Viện Shinobi)</label>
@@ -370,6 +378,9 @@
         </div>
     </div>
 
+    <!-- ==============================================
+                     3. HOKAGE SAGA (CỐ ĐỊNH 4 CLONE)
+    =================================================== -->
     <div id="hokage" class="game-section">
         <div class="form-group">
             <label>1. Chọn Nhân Vật (Hokage Saga)</label>
@@ -441,6 +452,7 @@
         </div>
     </div>
 
+    <!-- PHẦN CHUNG: THỰC THI -->
     <div class="form-group">
         <label>3. Số lượng mua</label>
         <input type="number" id="num" value="1" min="1" autocomplete="off">
