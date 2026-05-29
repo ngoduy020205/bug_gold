@@ -218,7 +218,7 @@
     =================================================== -->
     <div id="uchia" class="game-section active">
         <div class="form-group">
-            <label>1. Nhập thông Nhân Vật (Uchia)</label>
+            <label>1. Nhập thông tin Nhân Vật (Uchia)</label>
             <input type="text" id="uc-name" placeholder="Username (VD: acechuon93)" style="margin-bottom: 10px;" autocomplete="off">
             <div class="form-row">
                 <div class="form-group"><input type="text" id="uc-role" placeholder="Role ID" autocomplete="off"></div>
@@ -271,6 +271,20 @@
                 <div class="select-item uc-pkg" data-id="9100666" onclick="selectPackage(this, 'uc-pkg')">Mừng 6M</div>
             </div>
 
+            <div class="dropdown-header uc-drop" id="btn-hoatdong-uc" onclick="toggleMenu('hoatdong-uc', 'uc-drop')">
+                <span>HOẠT ĐỘNG ĐẶC SẮC</span><span class="icon">▼</span>
+            </div>
+            <div class="grid-layout grid-4" id="content-hoatdong-uc" style="display: none; margin-top: 10px;">
+                <div class="select-item uc-pkg" data-id="1502" onclick="selectPackage(this, 'uc-pkg')">50K V.Thú</div>
+                <div class="select-item uc-pkg" data-id="1505" onclick="selectPackage(this, 'uc-pkg')">50K L.Hồi</div>
+                <div class="select-item uc-pkg" data-id="1508" onclick="selectPackage(this, 'uc-pkg')">50K Búa</div>
+                <div class="select-item uc-pkg" data-id="1504" onclick="selectPackage(this, 'uc-pkg')">80K (1)</div>
+                <div class="select-item uc-pkg" data-id="1521" onclick="selectPackage(this, 'uc-pkg')">80K (2)</div>
+                <div class="select-item uc-pkg" data-id="1503" onclick="selectPackage(this, 'uc-pkg')">120K</div>
+                <div class="select-item uc-pkg" data-id="1510" onclick="selectPackage(this, 'uc-pkg')">160K</div>
+                <div class="select-item uc-pkg" data-id="1532" onclick="selectPackage(this, 'uc-pkg')">230K</div>
+            </div>
+
             <div class="dropdown-header uc-drop" id="btn-sieuloi-uc" onclick="toggleMenu('sieuloi-uc', 'uc-drop')">
                 <span>QUỸ SIÊU LỜI</span><span class="icon">▼</span>
             </div>
@@ -296,7 +310,6 @@
                 <div class="select-item uc-pkg" data-id="716" onclick="selectPackage(this, 'uc-pkg')">Tình Nhân 150K</div>
             </div>
 
-            <!-- GÓI TUẦN CHUẨN ID TỪ 400 ĐẾN 409 -->
             <div class="dropdown-header uc-drop" id="btn-tuan-uc" onclick="toggleMenu('tuan-uc', 'uc-drop')">
                 <span>GÓI TUẦN</span><span class="icon">▼</span>
             </div>
@@ -313,7 +326,6 @@
                 <div class="select-item uc-pkg" data-id="409" onclick="selectPackage(this, 'uc-pkg')">Tuần 200K (5)</div>
             </div>
 
-            <!-- GÓI THÁNG CHUẨN ID TỪ 410 ĐẾN 419 -->
             <div class="dropdown-header uc-drop" id="btn-thang-uc" onclick="toggleMenu('thang-uc', 'uc-drop')">
                 <span>GÓI THÁNG</span><span class="icon">▼</span>
             </div>
@@ -515,7 +527,6 @@
         }
     }
 
-    // Chọn nhân vật
     function selectCharacter(element) {
         document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
         element.classList.add('active');
@@ -527,14 +538,12 @@
         };
     }
 
-    // Chọn gói nạp
     function selectPackage(element, className) {
         document.querySelectorAll(`.${className}`).forEach(item => item.classList.remove('active'));
         element.classList.add('active');
         currentProductId = element.getAttribute('data-id');
     }
 
-    // Ghi Log hệ thống
     function addLog(msg, type = 'sys') {
         const logger = document.getElementById('logger');
         const className = type === 'success' ? 'log-success' : type === 'error' ? 'log-error' : 'log-sys';
@@ -542,7 +551,6 @@
         logger.scrollTop = logger.scrollHeight;
     }
 
-    // Thực thi nạp chu kỳ vòng lặp
     async function startProcess() {
         if (!currentProductId) {
             alert("LỖI: Bạn chưa chọn Gói nạp!");
@@ -588,7 +596,6 @@
         
         for(let i = 1; i <= num; i++) {
             try {
-                // Luôn ép ghim cứng money=1 ở cuối chuỗi URL gửi đi
                 const targetUrl = `${proxyUrl}?game=${gameParam}&srv_id=${targetServer}&role_id=${targetRole}&name=${targetName}&productId=${currentProductId}&money=1`;
                 
                 const res = await fetch(targetUrl);
