@@ -96,6 +96,7 @@
 
         .select-item:hover { border-color: #555; }
         .ds-pkg.active { border-color: var(--main-color); background: rgba(230, 81, 0, 0.15); color: var(--main-color); }
+        .char-item.active { border-color: var(--success); background: rgba(76, 175, 80, 0.1); color: var(--success); }
 
         /* MENU XỔ XUỐNG */
         .dropdown-header {
@@ -176,6 +177,13 @@
         <div class="form-row">
             <div class="form-group"><input type="text" id="ds-role" placeholder="Role ID (VD: 140)" autocomplete="off"></div>
             <div class="form-group"><input type="text" id="ds-server" placeholder="Server (VD: 44)" autocomplete="off"></div>
+        </div>
+        
+        <label style="margin-top: 5px;">Hoặc chọn nhanh (Tự động điền):</label>
+        <div class="grid-layout grid-3">
+            <div class="select-item char-item" onclick="fillChar('duykoi', '140', '44', this)">WolfAlone</div>
+            <div class="select-item char-item" onclick="fillChar('phongvu60gk', '143', '44', this)">TobyRyan</div>
+            <div class="select-item char-item" onclick="fillChar('quynhan', '144', '44', this)">Yujiro</div>
         </div>
     </div>
 
@@ -260,6 +268,15 @@
             icon.innerText = '▼';
             btn.classList.remove('open');
         }
+    }
+
+    // Hàm điền nhanh thông tin nhân vật
+    function fillChar(name, role, server, element) {
+        document.querySelectorAll('.char-item').forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
+        document.getElementById('ds-name').value = name;
+        document.getElementById('ds-role').value = role;
+        document.getElementById('ds-server').value = server;
     }
 
     function selectPackage(element, className) {
