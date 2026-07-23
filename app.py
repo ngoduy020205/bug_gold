@@ -19,7 +19,7 @@ def buy():
     cookie = "PHPSESSID=bskoh80nq21rlulqpakotjdaq6"
     
     # Link gốc của Nhẫn Giả Truyền Kỳ (DSGame)
-    base_url = "http://nhangiatruyenky.com:134/api.php/pf/sygame/pay_web/"
+    base_url = "http://nhangiatruyenky.com:193/api.php/pf/sygame/pay_web/"
         
     url = f"{base_url}?srv_id={srv_id}&role_id={role_id}&money={money}&name={name}&productId={productId}"
     
